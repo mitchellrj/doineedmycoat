@@ -1,0 +1,9 @@
+Do I need my coat?
+==================
+
+A quick little hack project to fill a silly domain.
+
+Uses geolocation (falling back to geo IP location) to determine
+where a user is and then uses the Underground Weather XML API to
+determine whether or not you ought to wear a coat in that
+location in order to avoid death.
