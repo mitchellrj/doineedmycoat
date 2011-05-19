@@ -53,13 +53,26 @@
       google.load('jquery', '1.6.1');
     </script>
     <script type="text/javascript" src="http://code.google.com/apis/gears/gears_init.js"></script>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&amp;key=ABQIAAAA_p6HAqTpVcWmgmWZvyWn4xSYh7RtDzKPY473LhpDysqgKbOOZhTPcmhIhRmsey7cmh2LEl8MbiZsnA&amp;v=3"></script>
     <script type="text/javascript" src="http://j.maxmind.com/app/geoip.js"></script>
+    <!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&key=ABQIAAAA_p6HAqTpVcWmgmWZvyWn4xSYh7RtDzKPY473LhpDysqgKbOOZhTPcmhIhRmsey7cmh2LEl8MbiZsnA&v=3"></script> -->
+    <script type="text/javascript" id="maploader">
+      var maps_api_key = 'ABQIAAAA_p6HAqTpVcWmgmWZvyWn4xSYh7RtDzKPY473LhpDysqgKbOOZhTPcmhIhRmsey7cmh2LEl8MbiZsnA';
+      if (window.location.href.indexOf('.com')>-1) {
+        maps_api_key = 'ABQIAAAA_p6HAqTpVcWmgmWZvyWn4xThfvU1rMPs2dyMAPSoXXFC8lq_4RTDaT4MW3IBp1JFFpoFEl6sDc3JAQ';
+      }
+      var container = document.createElement('div');
+      var gm = document.createElement('script'); gm.type = 'text/javascript';
+      gm.src = 'http://maps.google.com/maps/api/js?sensor=true&key=' + maps_api_key + '&v=3';
+      container.appendChild(gm);
+      document.write(container.innerHTML);
+    </script>
     <script type="text/javascript">
       doineedmycoat = {};
+      doineedmycoat.strings = {
+        workingItOut: "Gimme a minute, I'm just working it out..."
+      };
+      $(function() {
       doineedmycoat.geocoder = new google.maps.Geocoder();
-      doineedmycoat.strings = {};
-      doineedmycoat.strings.workingItOut = "Gimme a minute, I'm just working it out...";
       doineedmycoat.utils = {
         setCookie: function (c_name, value, exdays) {
           var exdate = new Date();
@@ -337,30 +350,29 @@
 		}
       };
       window.doineedmycoat = doineedmycoat;
-      $(function() {
-        $('#result form').live('submit', function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          var newLocation = $('#newlocation').val();
-          doineedmycoat.utils.setCookie('location', newLocation, 1);
-          doineedmycoat.location.getLocation(newLocation);
-          $('#result').html(doineedmycoat.strings.workingItOut);
-        });
-        $('#currentlocation').click(function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          doineedmycoat.utils.setCookie('location', '', -1);
-          doineedmycoat.location.getCurrentLocation();
-        });
-        var location = doineedmycoat.utils.getCookie('location');
-        if (location) {
-          // use cookie
-          doineedmycoat.location.getLocation(location);
-        }
-  	    // Try W3C Geolocation (Preferred)
-        else {
-          doineedmycoat.location.getCurrentLocation();
-        }
+      $('#result form').live('submit', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var newLocation = $('#newlocation').val();
+        doineedmycoat.utils.setCookie('location', newLocation, 1);
+        doineedmycoat.location.getLocation(newLocation);
+        $('#result').html(doineedmycoat.strings.workingItOut);
+      });
+      $('#currentlocation').click(function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        doineedmycoat.utils.setCookie('location', '', -1);
+        doineedmycoat.location.getCurrentLocation();
+      });
+      var location = doineedmycoat.utils.getCookie('location');
+      if (location) {
+        // use cookie
+        doineedmycoat.location.getLocation(location);
+      }
+	    // Try W3C Geolocation (Preferred)
+      else {
+        doineedmycoat.location.getCurrentLocation();
+      }
       });
     </script>
   </head>
