@@ -31,6 +31,11 @@
         color: #aaa;
         text-align: left;
       }
+      .permissions {
+        font-family: Verdana, Tahoma, Helvetica, sans-serif;
+        font-size: 8pt;
+        color: #aaa;
+      }
       a {
         color: #777;
       }
@@ -59,7 +64,7 @@
       doineedmycoat = {};
       doineedmycoat.geocoder = new google.maps.Geocoder();
       doineedmycoat.strings = {};
-      doineedmycoat.strings.workingItOut = "Gimme a minute, I'm just working it out...";
+      doineedmycoat.strings.workingItOut = "<p>Gimme a minute, I'm just working it out...</p><p class=\"permissions\">(You might have to choose to allow or deny this site access to your location up at the top of the window.)</p>";
       doineedmycoat.utils = {
         setCookie: function (c_name, value, exdays) {
           var exdate = new Date();
@@ -172,7 +177,9 @@
   		      });
   		    }, function() {
   		      doineedmycoat.location.handleNoGeoLocation(browserSupportFlag);
-  		    });
+  		    },
+  		    {enableHighAccuracy: true,
+  		     timeout: 5000});
   		  // Try Google Gears Geolocation
           } else if (google.gears) {
   		    browserSupportFlag = true;
